@@ -1,30 +1,18 @@
-# Prerequisites
-*.d
+# Build directories
+bin/
+obj/
+build/
 
 # Compiled Object files
-*.slo
-*.lo
 *.o
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
+*.slo
+*.lo
 
 # Compiled Dynamic libraries
 *.so
 *.dylib
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -36,6 +24,45 @@
 *.exe
 *.out
 *.app
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*~
+
+# Core dumps
+core
+core.*
+
+# Prerequisites
+*.d
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Fortran module files
+*.mod
+*.smod
 
 # debug information files
 *.dwo

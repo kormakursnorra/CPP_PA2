@@ -2,54 +2,42 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C++ Debug (g++)",
+            "name": "(gdb) Launch - Linux",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
+            "preLaunchTask": "make build",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
                 }
-            ],
-            "preLaunchTask": "C++: g++ build active file",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "linux": {
-                "MIMode": "gdb",
-                "miDebuggerPath": "/usr/bin/gdb"
-            },
-            "osx": {
-                "MIMode": "lldb",
-                "miDebuggerPath": "/usr/bin/lldb"
-            }
+            ]
         },
         {
-            "name": "C++ Debug (clang++)",
+            "name": "(lldb) Launch - macOS",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${fileDirname}",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "C++: clang++ build active file",
-            "linux": {
-                "MIMode": "gdb",
-                "miDebuggerPath": "/usr/bin/gdb"
-            },
-            "osx": {
-                "MIMode": "lldb",
-                "miDebuggerPath": "/usr/bin/lldb"
-            }
+            "preLaunchTask": "make build"
         }
     ]
 }
