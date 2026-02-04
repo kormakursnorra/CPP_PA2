@@ -84,7 +84,8 @@ There are additionally 10 points available for templating your data structures.
     * You must implement the default constructor, copy constructor, assignment (operator=), insert, find, erase, operator[], size, successor, predecessor, rank, kth_element, lower_bound, upper_bound.
 
 **Examples:**
-    * **If you implement a dynamically sized array (20), linked list (20), stack (10), heap (15) and hash table (20), you get 85 points. If you further template at least one of them (5), you get 90 points. If you template all of them (10), you get 95 points.**
-    * **Suppose instead that you implement the dynamically sized array (20), linked list (20), deque (15) and a (non-self-balancing) binary search tree (15) then you will get 70 points total.**
+
+* **If you implement a dynamically sized array (20), linked list (20), stack (10), heap (15) and hash table (20), you get 85 points. If you further template at least one of them (5), you get 90 points. If you template all of them (10), you get 95 points.**
+* **Suppose instead that you implement the dynamically sized array (20), linked list (20), deque (15) and a (non-self-balancing) binary search tree (15) then you will get 70 points total.**
 
 **Both examples assume you do not have any errors and that you implement all functions. You will always receive some partial score if you implement some of the required functionality, but it can range from 1 point to the maximum, depending on how much is missing.**
