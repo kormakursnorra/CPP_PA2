@@ -1,0 +1,14 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin",
+            "binaryPath": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin/main",
+            "binaryArgs": []
+        },
+        {
+            "cwd": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin",
+            "binaryPath": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin/dll_test",
+            "binaryArgs": []
+        }
+    ]
+}

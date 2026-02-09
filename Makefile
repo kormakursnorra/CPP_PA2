@@ -7,18 +7,35 @@ INCLUDE_DIR := include
 BIN_DIR := bin
 OBJ_DIR := obj
 
-TARGET := main
+DLL_TEST_TARGET := dll_test
+HEAP_TEST_TARGET := heap_test
 
-SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
-OBJECTS := $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+DLL_TEST_BIN := $(BIN_DIR)/$(DLL_TEST_TARGET)
+HEAP_TEST_BIN := $(BIN_DIR)/$(HEAP_TEST_TARGET)
 
-all: $(BIN_DIR)/$(TARGET)
+DLL_SOURCES := src/DLL/dll_test.cpp
+HEAP_SOURCES := src/Heap/heap_test.cpp
 
-$(BIN_DIR)/$(TARGET): $(OBJECTS) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $@ $(LDFLAGS)
+ALL_TARGETS := $(DLL_TEST_BIN) $(HEAP_TEST_BIN)
+
+DLL_TEST_OBJECTS := $(DLL_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+HEAP_TEST_OBJECTS := $(HEAP_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+all: $(ALL_TARGETS)
+	@echo " All test executables built" 
+
+$(DLL_TEST_BIN): $(DLL_TEST_OBJECTS) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@chmod +x $@
+	@echo "Build complete: $@"
+
+$(HEAP_TEST_BIN): $(HEAP_TEST_OBJECTS) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@chmod +x $@
 	@echo "Build complete: $@"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 $(BIN_DIR):
@@ -27,8 +44,13 @@ $(BIN_DIR):
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-run: $(BIN_DIR)/$(TARGET)
-	./$(BIN_DIR)/$(TARGET)
+run-dll: $(DLL_TEST_BIN)
+	@echo "Running DLL Test"
+	./$(DLL_TEST_BIN)
+
+run-heap: $(HEAP_TEST_BIN)
+	@echo "Running Heap Test"
+	./$(HEAP_TEST_BIN)
 
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
@@ -36,13 +58,7 @@ clean:
 
 rebuild: clean all
 
+dll_test: $(DLL_TEST_BIN)
+heap_test: $(HEAP_TEST_BIN)
 
-help:
-	@echo "Available targets:"
-	@echo "  all (default) - Build the project"
-	@echo "  run           - Build and run the program"
-	@echo "  clean         - Remove all build artifacts"
-	@echo "  rebuild       - Clean and build from scratch"
-	@echo "  help          - Show this help message"
-
-.PHONY: all run clean rebuild help
+.PHONY: all run-dll run-heap test clean rebuild list help dll_test heap_test

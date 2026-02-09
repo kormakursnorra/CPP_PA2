@@ -1,7 +1,6 @@
 # Build directories
 bin/
 obj/
-build/
 
 # Compiled Object files
 *.o
