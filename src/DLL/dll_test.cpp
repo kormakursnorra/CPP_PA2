@@ -5,7 +5,7 @@
 
 static DLL<int> lists[1001];
 
-static Node<int> *cursors[1001];
+static listNode<int> *cursors[1001];
 
 int main() {
 

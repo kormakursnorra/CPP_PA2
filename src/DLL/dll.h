@@ -2,20 +2,20 @@
 #define DLL_H
 
 template <typename T>
-struct Node {
-    Node<T> *prev;
-    Node<T> *next;
+struct listNode {
+    listNode<T> *prev;
+    listNode<T> *next;
     T data;
 };
 
 template <typename T> 
 struct DLL {
-    Node<T> *sentinel;
+    listNode<T> *sentinel;
     int size; 
 
     DLL() // Constructor
     {
-        sentinel = new Node<T>();
+        sentinel = new listNode<T>();
         sentinel->prev = sentinel;
         sentinel->next = sentinel;
         size = 0;
@@ -23,26 +23,26 @@ struct DLL {
     
     DLL(const DLL<T> &other)  // Copy 
     {
-        sentinel = new Node<T>();
+        sentinel = new listNode<T>();
         sentinel->prev = sentinel;
         sentinel->next = sentinel;
         
-        Node<T> *curr = sentinel;
+        listNode<T> *curr = sentinel;
         size = other.size;
         
-        Node<T> *other_node = other.sentinel->next;
+        listNode<T> *listother_node = other.sentinel->next;
 
-        while (other_node != other.sentinel) {
-            Node<T> *new_node = new Node<T>();
+        while (listother_node != other.sentinel) {
+            listNode<T> *listnew_node = new listNode<T>();
             
-            new_node->prev = curr;
-            new_node->next = curr->next;
-            curr->next->prev = new_node;
-            curr->next = new_node;
+            listnew_node->prev = curr;
+            listnew_node->next = curr->next;
+            curr->next->prev = listnew_node;
+            curr->next = listnew_node;
 
-            new_node->data = other_node->data;
-            curr = new_node;
-            other_node = other_node->next;
+            listnew_node->data = listother_node->data;
+            curr = listnew_node;
+            listother_node = listother_node->next;
         }
 
         curr = sentinel;
@@ -54,34 +54,34 @@ struct DLL {
             return *this; 
         }
         
-        Node<T> *node = sentinel->next;
-        while (node != sentinel) {
-            node = node->next;
-            delete node->prev;
+        listNode<T> *listnode = sentinel->next;
+        while (listnode != sentinel) {
+            listnode = listnode->next;
+            delete listnode->prev;
         }
 
         delete sentinel;
 
-        sentinel = new Node<T>();
+        sentinel = new listNode<T>();
         sentinel->prev = sentinel;
         sentinel->next = sentinel;
         
-        Node<T> *curr = sentinel;
+        listNode<T> *curr = sentinel;
         size = other.size;
 
-        Node<T> *other_node = other.sentinel->next;
+        listNode<T> *listother_node = other.sentinel->next;
 
-        while (other_node != other.sentinel) {
-            Node<T> *new_node = new Node<T>();
+        while (listother_node != other.sentinel) {
+            listNode<T> *listnew_node = new listNode<T>();
             
-            new_node->prev = curr;
-            new_node->next = curr->next;
-            curr->next->prev = new_node;
-            curr->next = new_node;
+            listnew_node->prev = curr;
+            listnew_node->next = curr->next;
+            curr->next->prev = listnew_node;
+            curr->next = listnew_node;
 
-            new_node->data = other_node->data;
-            curr = new_node;
-            other_node = other_node->next;
+            listnew_node->data = listother_node->data;
+            curr = listnew_node;
+            listother_node = listother_node->next;
         }
 
         curr = sentinel;
@@ -90,16 +90,16 @@ struct DLL {
 
     ~DLL()  // Deconstructor
     {
-        Node<T> *node = sentinel->next;
-        while (node != sentinel) {
-            node = node->next;
-            delete node->prev;
+        listNode<T> *listnode = sentinel->next;
+        while (listnode != sentinel) {
+            listnode = listnode->next;
+            delete listnode->prev;
         }
     
         delete sentinel;
     }
     
-    Node<T>* getFirst() 
+    listNode<T>* getFirst() 
     {
         if (size == 0) { 
             return sentinel;
@@ -107,7 +107,7 @@ struct DLL {
         return sentinel->next;
     }
     
-    Node<T>* getLast()
+    listNode<T>* getLast()
     {
         if (size == 0) { 
             return sentinel; 
@@ -115,40 +115,40 @@ struct DLL {
         return sentinel->prev; 
     }
 
-    Node<T>* insertNode(Node<T> *curr, T data)
+    listNode<T>* insertNode(listNode<T> *curr, T data)
     {
-        Node<T> *new_node = new Node<T>();
-        new_node->data = data;
+        listNode<T> *listnew_node = new listNode<T>();
+        listnew_node->data = data;
     
-        new_node->prev = curr->prev;
-        new_node->next = curr;
-        curr->prev->next = new_node;
-        curr->prev = new_node;
+        listnew_node->prev = curr->prev;
+        listnew_node->next = curr;
+        curr->prev->next = listnew_node;
+        curr->prev = listnew_node;
     
-        curr = new_node;
+        curr = listnew_node;
         size++;
-        return new_node;
+        return listnew_node;
     }
 
-    Node<T>* eraseNode(Node<T> *curr)
+    listNode<T>* eraseNode(listNode<T> *curr)
     {
         if (size == 0) { return curr; }
-        Node<T> *node = curr->next;
-        node->prev = curr->prev;
-        curr->prev->next = node;
+        listNode<T> *listnode = curr->next;
+        listnode->prev = curr->prev;
+        curr->prev->next = listnode;
         
         delete curr; 
-        curr = node;
+        curr = listnode;
         size--;
-        return node;
+        return listnode;
     }
 
-    Node<T>* getPredecessor(Node<T> *curr)
+    listNode<T>* getPredecessor(listNode<T> *curr)
     {
         return curr->prev;
     }
 
-    Node<T>* getSuccessor(Node<T> *curr)
+    listNode<T>* getSuccessor(listNode<T> *curr)
     {
         return curr->next;
     }
