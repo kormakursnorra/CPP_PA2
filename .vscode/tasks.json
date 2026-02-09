@@ -17,6 +17,18 @@
             "problemMatcher": ["$gcc"]
         },
         {
+            "label": "make bst_test",
+            "type": "shell",
+            "command": "make",
+            "args": ["bst_test"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
             "label": "make dll_test",
             "type": "shell",
             "command": "make",
@@ -45,6 +57,17 @@
             "type": "shell",
             "command": "make",
             "args": ["clean"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+         {
+            "label": "run bst_test",
+            "type": "shell",
+            "command": "make",
+            "args": ["run-bst"],
+            "dependsOn": ["make bst_test"],
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
