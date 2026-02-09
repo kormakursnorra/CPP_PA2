@@ -2,17 +2,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch - Linux",
+            "name": "(gdb) DLL Test - Linux",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/bin/dll_test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "preLaunchTask": "make build",
+            "preLaunchTask": "make dll_test",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -27,17 +27,55 @@
             ]
         },
         {
-            "name": "(lldb) Launch - macOS",
+            "name": "(lldb) DLL Test - macOS",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/bin/heap_test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "make build"
+            "preLaunchTask": "make dll_test"
+        },
+        {
+      "name": "(gdb) Heap Test - Linux",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/heap_test",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "make heap_test",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Set Disassembly Flavor to Intel",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
         }
-    ]
+      ]
+    },
+    {
+      "name": "(lldb) Heap Test - macOS",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/heap_test",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "make heap_test"
+    }
+  ]
 }

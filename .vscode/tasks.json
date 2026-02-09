@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "make build",
+            "label": "make all",
             "type": "shell",
             "command": "make",
             "args": [],
@@ -10,6 +10,30 @@
                 "kind": "build",
                 "isDefault": true
             },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "make dll_test",
+            "type": "shell",
+            "command": "make",
+            "args": ["dll_test"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "make heap_test",
+            "type": "shell",
+            "command": "make",
+            "args": ["heap_test"],
+            "group": "build",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
@@ -27,20 +51,43 @@
             }
         },
         {
-            "label": "make run",
+            "label": "run dll_test",
             "type": "shell",
             "command": "make",
-            "args": ["run"],
-            "dependsOn": ["make build"],
+            "args": ["run-dll"],
+            "dependsOn": ["make dll_test"],
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
             }
         },
         {
-            "label": "Build and Run",
+            "label": "run heap_test",
             "type": "shell",
-            "command": "make && make run",
+            "command": "make",
+            "args": ["run-heap"],
+            "dependsOn": ["make heap_test"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "run all tests",
+            "type": "shell",
+            "command": "make",
+            "args": ["test"],
+            "dependsOn": ["make all"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "rebuild all",
+            "type": "shell",
+            "command": "make",
+            "args": ["rebuild"],
             "group": "build",
             "presentation": {
                 "reveal": "always",

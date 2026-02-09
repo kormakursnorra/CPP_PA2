@@ -2,12 +2,12 @@
     "makefile.launchConfigurations": [
         {
             "cwd": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin",
-            "binaryPath": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin/main",
+            "binaryPath": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin/dll_test",
             "binaryArgs": []
         },
         {
             "cwd": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin",
-            "binaryPath": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin/dll_test",
+            "binaryPath": "/home/kormakur-snorrason/HR/Year2/Cpp/Assignments/PA2/bin/heap_test",
             "binaryArgs": []
         }
     ]

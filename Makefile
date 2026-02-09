@@ -13,10 +13,11 @@ HEAP_TEST_TARGET := heap_test
 DLL_TEST_BIN := $(BIN_DIR)/$(DLL_TEST_TARGET)
 HEAP_TEST_BIN := $(BIN_DIR)/$(HEAP_TEST_TARGET)
 
-DLL_SOURCES := src/DLL/dll_test.cpp
-HEAP_SOURCES := src/Heap/heap_test.cpp
-
 ALL_TARGETS := $(DLL_TEST_BIN) $(HEAP_TEST_BIN)
+
+DLL_TEST_SOURCES := src/DLL/dll_test.cpp
+HEAP_TEST_SOURCES := src/Heap/heap.cpp src/Heap/heap_test.cpp
+
 
 DLL_TEST_OBJECTS := $(DLL_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 HEAP_TEST_OBJECTS := $(HEAP_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
