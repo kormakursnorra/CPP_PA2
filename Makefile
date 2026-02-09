@@ -53,6 +53,10 @@ $(BIN_DIR):
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
+run-bst: $(BST_TEST_BIN)
+	@echo "Running BST Test"
+	./$(BST_TEST_BIN)
+
 run-dll: $(DLL_TEST_BIN)
 	@echo "Running DLL Test"
 	./$(DLL_TEST_BIN)
@@ -67,6 +71,7 @@ clean:
 
 rebuild: clean all
 
+heap_test: $(BST_TEST_BIN)
 dll_test: $(DLL_TEST_BIN)
 heap_test: $(HEAP_TEST_BIN)
 
