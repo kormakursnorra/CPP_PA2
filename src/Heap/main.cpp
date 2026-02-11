@@ -15,10 +15,9 @@ int main() {
         char op;
         scanf("%d %c", &id, &op);
         
-        if (heaps[id] == nullptr) {
+        if (op != 'a' && heaps[id] == nullptr) {
             heaps[id] = new Heap();
         }
-
         if (op == '+') {
             int value;
             scanf("%d", &value);
@@ -26,21 +25,20 @@ int main() {
         } else if (op == '-') {
             heaps[id]->pop();
         } else if (op == 'p') {
-            printf("%d\n", heaps[id]->peek());
+            printf("%d\n", heaps[id]->peek());  
         } else if (op == 's') {
             printf("%d\n", heaps[id]->size());
         } else if (op == 'a') {
             int sourceID;
             scanf("%d", &sourceID);
-
+            // Delete old heap if it exists
             if (heaps[id] != nullptr) {
                 delete heaps[id];
             }
-
+            // Create copy from source
             heaps[id] = new Heap(*heaps[sourceID]);
         }
     }
-
     // Clean up all created heaps
     for (int i = 1; i <= 1000; i++) {
         if (heaps[i] != nullptr) {
