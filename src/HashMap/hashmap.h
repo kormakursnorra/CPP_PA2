@@ -14,6 +14,7 @@ struct HashMap{
     int capacity;
     int count;
     int hash(int key);
+    void resize();
 
     public:
     HashMap();
