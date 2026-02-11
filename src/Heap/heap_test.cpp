@@ -7,7 +7,7 @@ int main() {
 
     Heap* heaps[1001];
     for (int i = 0; i <= 1000; i++) {
-        heaps[i] = nullptr;
+        heaps[i] = NULL;
     }
 
     for (int i = 0; i < q; i++) {
@@ -15,7 +15,7 @@ int main() {
         char op;
         scanf("%d %c", &id, &op);
         
-        if (op != 'a' && heaps[id] == nullptr) {
+        if (heaps[id] == NULL) {
             heaps[id] = new Heap();
         }
         if (op == '+') {
@@ -31,8 +31,8 @@ int main() {
         } else if (op == 'a') {
             int sourceID;
             scanf("%d", &sourceID);
-            // Delete old heap if it exists
-            if (heaps[id] != nullptr) {
+
+            if (heaps[id] != NULL) {
                 delete heaps[id];
             }
             // Create copy from source
@@ -41,7 +41,7 @@ int main() {
     }
     // Clean up all created heaps
     for (int i = 1; i <= 1000; i++) {
-        if (heaps[i] != nullptr) {
+        if (heaps[i] != NULL) {
             delete heaps[i];
         }
     }
