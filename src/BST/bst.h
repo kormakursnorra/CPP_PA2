@@ -8,7 +8,7 @@ struct treeNode {
     treeNode<T1, T2> *parent;
     treeNode<T1, T2> *right;
     treeNode<T1, T2> *left;
-    int color;
+    int color; // 0 = black, 1 = red
     T1 key;
     T2 val;
 
@@ -27,21 +27,18 @@ struct treeNode {
         color = other.color;
         key = other.key;
         val = other.val;
-        
-        if (other.parent != NULL) {
-            parent = new treeNode<T1, T2>(*other.parent);
-        } else {
-            parent = NULL;
-        }
+        parent = NULL;
         
         if (other.right != NULL) {
             right = new treeNode<T1, T2>(*other.right);
+            right->parent = this;
         } else {
             right = NULL;
         }
 
         if (other.left != NULL) {
             left = new treeNode<T1, T2>(*other.left);
+            left->parent = this;
         } else {
             left = NULL;
         }
@@ -60,7 +57,6 @@ struct treeNode {
 
     ~treeNode() // Tree Node Destructor
     {   
-        delete parent;
         delete right;
         delete left;
     }
@@ -85,9 +81,16 @@ struct Tree {
         T2 val = node->val; 
 
         treeNode<T1, T2> *new_node = new treeNode<T1, T2>(key, val);
+        new_node->color = node->color;
         
-        new_node->right = copyTree(node->right);        
+        new_node->right = copyTree(node->right);
+        if (new_node->right != NULL) {
+            new_node->right->parent = new_node;
+        }        
         new_node->left = copyTree(node->left);
+        if (new_node->left != NULL) {
+            new_node->left->parent = new_node;
+        }        
 
         return new_node;
     }
@@ -120,7 +123,7 @@ struct Tree {
         return node;
     }
 
-    treeNode<T1, T2>* findNode(T1 key) { return findNode(key, root); }
+    treeNode<T1, T2>* findNode(T1 key) { return findNodeHelper(key, root); }
 
     treeNode<T1, T2>* getTreeCeil(T1 key, treeNode<T1, T2> *node) 
     {
@@ -195,19 +198,20 @@ struct Tree {
     {
         if (node1->parent == NULL) {
             root = node2;
-        } else if (node1 == node1->parnet->left) {
+        } else if (node1 == node1->parent->left) {
             node1->parent->left = node2;
         } else {
             node1->parent->right = node2; 
         }
-
-        node2->parent = node1->parent;
+        if (node2 != NULL) {
+            node2->parent = node1->parent;
+        }
     }
 
     void fixInsertNode(treeNode<T1, T2> *new_node) 
     {
         treeNode<T1, T2> *parent = NULL;
-        treeNode<T1, T2> grandparent = NULL;
+        treeNode<T1, T2> *grandparent = NULL;
         while (new_node != root && new_node->color == 1 
                 && new_node->parent->color == 1) {
             parent = new_node->parent;
@@ -244,7 +248,7 @@ struct Tree {
                     if (new_node == parent->left) {
                         rotateRight(parent);
                         new_node = parent;
-                        parent = node->parent;
+                        parent = new_node->parent;
                     }
 
                     rotateLeft(grandparent);
@@ -253,17 +257,21 @@ struct Tree {
                 }
             }
         }
+        root->color = 0;
     }
 
     treeNode<T1, T2>* insertNode(T1 key, T2 value) 
     {
+        treeNode<T1, T2> *exists = findNode(key);
+        if (exists != NULL) { return exists; }
+
         treeNode<T1, T2> *new_node = new treeNode<T1, T2>(key, value);
         treeNode<T1, T2> *parent = NULL;
         treeNode<T1, T2> *curr = this->root;
 
         while (curr != NULL) {
             parent = curr;
-            if (key < curr->key) {
+            if (new_node->key < curr->key) {
                 curr = curr->left;
             } else {
                 curr = curr->right;
@@ -273,24 +281,27 @@ struct Tree {
         new_node->parent = parent;
         if (parent == NULL) {
             root = new_node;
-        } else if (node->key < parent->key) {
+        } else if (new_node->key < parent->key) {
             parent->left = new_node;
         } else {
             parent->right = new_node;
         }
 
         fixInsertNode(new_node);
-        root->color = 0;
         size++;
         return new_node;
     }
 
     void fixEraseNode(treeNode<T1, T2> *node) 
     {
+        if (node == NULL) { return; }
+
         treeNode<T1, T2> *other_node;
         while (node != root && node->color == 0) {
             if (node == node->parent->left) {
                 other_node = node->parent->right;
+                
+                if (other_node == NULL) { break; }
                 
                 if (other_node->color == 1) {
                     other_node->color = 0;
@@ -299,6 +310,8 @@ struct Tree {
                     other_node = node->parent->right;
                 }
 
+                if (other_node == NULL) { break; }
+
                 if (other_node->left->color == 0 
                     && other_node->right->color == 0) {
                     
@@ -306,53 +319,72 @@ struct Tree {
                     node = node->parent;
                 } else {
                     if (other_node->right->color == 0) {
-                        other_node->left->color = 0;
+                        if (other_node->left != NULL) {
+                            other_node->left->color = 0;
+                        }
                         other_node->color = 1;
                         rotateRight(other_node);
                         other_node = node->parent->right;
                     }
                     
+                    if (other_node == NULL) { break; }
+
                     other_node->color = node->parent->color;
                     node->parent->color = 0;
-                    other_node->right->color = 0;
+                    if (other_node->right != NULL) {
+                        other_node->right->color = 0;
+                    }
                     rotateLeft(node->parent);
                     node = root;
                 }
             } else {
                 other_node = node->parent->left;
+
+                if (other_node == NULL) { break; }
+
                 if (other_node->color == 1) {
                     other_node->color = 0;
                     node->parent->color = 1;
-                    rightRotate(node->parent);
+                    rotateRight(node->parent);
                     other_node = node->parent->left;
                 }
 
-                if (other_node->right->color == 0 && other_node->right->color == 0) {
+                if (other_node->right->color == 0 
+                    && other_node->right->color == 0) {
+                    
                     other_node->color = 1;
                     node = node->parent;
                 } else {
                     if (other_node->left->color == 0) {
-                        other_node->right->color = 0;
+                        if (other_node->right != NULL) {
+                            other_node->right->color = 0;
+                        }
                         other_node->color = 1;
                         rotateLeft(other_node);
                         other_node = node->parent->left;
                     }
 
+                    if (other_node == NULL) { break; }
+
                     other_node->color = node->parent->color;
                     node->parent->color = 0;
-                    other_node->left->color = 0;
+                    if (other_node->left != NULL) {
+                        other_node->left->color = 0;
+                    }
                     rotateRight(node->parent);
                     node = root;
                 }
             }
         }
+        if (node != NULL) {
+            node->color = 0;
+        }
     }
 
     void eraseNode(treeNode<T1, T2> *curr) 
     {
-        if (curr == NULL) {
-            return;
-        }
+        if (curr == NULL) { return; }
+
         treeNode<T1, T2> *tmp1 = curr;
         treeNode<T1, T2> *tmp2 = tmp1;
         treeNode<T1, T2> *tmp3 = NULL;
@@ -366,16 +398,14 @@ struct Tree {
             tmp3 = tmp1->left;
             transplant(tmp1, tmp1->left);
         } else {
-            treeNode<T1, T2> *curr = tmp1->right;
-            while (curr->left != NULL) {
-                curr = curr->left;
-            }
-            tmp2 = curr; 
-            
+            tmp2 = getMinimumKey(tmp1->right); 
             tmp2_original_color = tmp2->color;
             tmp3 = tmp2->right;
-            if (tmp2->parnet == tmp1) {
-                tmp3->parent = tmp2;
+            
+            if (tmp2->parent == tmp1) {
+                if (tmp3 != NULL) {
+                    tmp3->parent = tmp2;
+                }
             } else {
                 transplant(tmp2, tmp2->right);
                 tmp2->right = tmp1->right;
@@ -384,7 +414,7 @@ struct Tree {
 
             transplant(tmp1, tmp2);
             tmp2->left = tmp1->left;
-            tmp2->left->parnet = tmp2;
+            tmp2->left->parent = tmp2;
             tmp2->color = tmp1->color;
         }
         
@@ -399,23 +429,32 @@ struct Tree {
         size--;
     }
 
-    treeNode<T1, T2>* getMinimumKey() 
+    treeNode<T1, T2>* getMinimumKey(treeNode<T1, T2> *node)
     { 
-        treeNode<T1, T2> *curr = root;
+        if (node == NULL) { return NULL; }
+
+        treeNode<T1, T2> *curr = node;
         while (curr->left != NULL) {
             curr = curr->left;
         }
         return curr; 
     }
 
-    treeNode<T1, T2>* getMaximumKey() 
+
+    treeNode<T1, T2>* getMinimumKey() { return getMinimumKey(root); }
+
+    treeNode<T1, T2>* getMaximumKey(treeNode<T1, T2> *node) 
     { 
-        treeNode<T1, T2> *curr = root;
+        if (node == NULL) { return NULL; }
+
+        treeNode<T1, T2> *curr = node;
         while (curr->right != NULL) {
             curr = curr->right;
         }
         return curr; 
     }
+
+    treeNode<T1, T2>* getMaximumKey() { return getMaximumKey(root); }
 
     treeNode<T1, T2>* getPredecessor(treeNode<T1, T2> *curr) 
     { 
@@ -447,7 +486,7 @@ struct Tree {
     int countNodes(treeNode<T1, T2> *curr) 
     {
         if (curr == NULL) { return 0; }
-        return 1 + getRank(curr->left) + getRank(curr->right);
+        return 1 + countNodes(curr->left) + countNodes(curr->right);
     }
     
     int getRank(treeNode<T1, T2> *target) 
