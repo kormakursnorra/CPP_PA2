@@ -11,13 +11,13 @@ A templated doubly linked list with sentinel node implementation. The list maint
 **Implementation details:**
 - Uses a circular doubly linked list structure with a sentinel node
 - Sentinel node acts as both the head and tail marker:
-- * `sentinel->next` points to the first real node
-- * `sentinel->prev` points to the last real node
-- * When empty: `sentinel->next == sentinel->prev == sentinel`
+  * `sentinel->next` points to the first real node
+  * `sentinel->prev` points to the last real node
+  * When empty: `sentinel->next == sentinel->prev == sentinel`
 - Each node contains:
-- * `data`: the stored value (templated type T)
-- * `prev`: pointer to previous node
-- * `next`: pointer to next node
+  * `data`: the stored value (templated type T)
+  * `prev`: pointer to previous node
+  * `next`: pointer to next node
 - Circular structure simplifies edge cases (no NULL pointers to check)
 - Supports insertion before any node, including the sentinel (which inserts at end)
 
