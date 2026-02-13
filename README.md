@@ -2,7 +2,7 @@
 
 ## Implemented Data Structures
 
-### 1. Dynamically Sized Array — `src/Array/`
+### 1. Dynamically Sized Array - `src/Array/`
 
 A templated dynamically sized array that automatically manages its capacity as elements are added or removed. 
 
@@ -35,7 +35,7 @@ A templated dynamically sized array that automatically manages its capacity as e
 - `element_get()` / `element_set()` with out-of-bounds index: no bounds checking, undefined behavior.
 - `resize()` to a smaller size: elements beyond new size are not deleted, but size is updated (capacity unchanged).
 
-### 2. Linked List — `src/DLL/`
+### 2. Linked List - `src/DLL/`
 
 A templated doubly linked list with sentinel node implementation. The list maintains bidirectional links between nodes, allowing efficient insertion and deletion at any position.
 
