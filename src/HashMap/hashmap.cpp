@@ -1,5 +1,5 @@
 #include "hashmap.h"
-#include <cstddef>
+#include <cstdio>
 
 HashMap::HashMap() {
     capacity = 4;

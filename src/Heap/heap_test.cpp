@@ -28,6 +28,5 @@ int main() {
             heaps[id] = heaps[sourceID];
         }
     }
-
     return 0;
 }

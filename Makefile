@@ -10,20 +10,24 @@ OBJ_DIR := obj
 BST_TEST_TARGET := bst_test
 DLL_TEST_TARGET := dll_test
 HEAP_TEST_TARGET := heap_test
+HASHMAP_TEST_TARGET := hashmap_test
 
 BST_TEST_BIN := $(BIN_DIR)/$(BST_TEST_TARGET)
 DLL_TEST_BIN := $(BIN_DIR)/$(DLL_TEST_TARGET)
 HEAP_TEST_BIN := $(BIN_DIR)/$(HEAP_TEST_TARGET)
+HASHMAP_TEST_BIN := $(BIN_DIR)/$(HASHMAP_TEST_TARGET)
 
-ALL_TARGETS := $(DLL_TEST_BIN) $(HEAP_TEST_BIN) $(BST_TEST_TARGET)
+ALL_TARGETS := $(DLL_TEST_BIN) $(HEAP_TEST_BIN) $(HASHMAP_TEST_BIN) $(BST_TEST_BIN)
 
 DLL_TEST_SOURCES := src/DLL/dll_test.cpp
 HEAP_TEST_SOURCES := src/Heap/heap.cpp src/Heap/heap_test.cpp
+HASHMAP_TEST_SOURCES := src/HashMap/hashmap.cpp src/HashMap/hashmap_test.cpp
 BST_TEST_SOURCES := src/BST/bst_test.cpp
 
-BST_TEST_OBJECTS := $(BST_TEST_SOURCES:$(SRC_DIR/%.cpp=$(OBJ_DIR)/%.o))
+BST_TEST_OBJECTS := $(BST_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 DLL_TEST_OBJECTS := $(DLL_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 HEAP_TEST_OBJECTS := $(HEAP_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+HASHMAP_TEST_OBJECTS := $(HASHMAP_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 all: $(ALL_TARGETS)
 	@echo " All test executables built" 
@@ -37,6 +41,11 @@ $(HEAP_TEST_BIN): $(HEAP_TEST_OBJECTS) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 	@chmod +x $@
 	@echo "Build Heap complete: $@"
+
+$(HASHMAP_TEST_BIN): $(HASHMAP_TEST_OBJECTS) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@chmod +x $@
+	@echo "Build HashMap complete: $@"
 
 $(BST_TEST_BIN): $(BST_TEST_OBJECTS) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
@@ -65,14 +74,19 @@ run-heap: $(HEAP_TEST_BIN)
 	@echo "Running Heap Test"
 	./$(HEAP_TEST_BIN)
 
+run-hashmap: $(HASHMAP_TEST_BIN)
+	@echo "Running HashMap Test"
+	./$(HASHMAP_TEST_BIN)
+
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 	@echo "Clean complete"
 
 rebuild: clean all
 
-heap_test: $(BST_TEST_BIN)
-dll_test: $(DLL_TEST_BIN)
+bst_test: $(BST_TEST_BIN)
 heap_test: $(HEAP_TEST_BIN)
+dll_test: $(DLL_TEST_BIN)
+hashmap_test: $(HASHMAP_TEST_BIN)
 
-.PHONY: all run-dll run-heap test clean rebuild list help dll_test heap_test
+.PHONY: all run-dll run-heap run-hashmap test clean rebuild list help dll_test heap_test hashmap_test bst_test
