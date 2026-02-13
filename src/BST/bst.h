@@ -312,13 +312,14 @@ struct Tree {
 
                 if (other_node == NULL) { break; }
 
-                if (other_node->left->color == 0 
-                    && other_node->right->color == 0) {
-                    
+                int left_color = (other_node->left == NULL) ? 0 : other_node->left->color;
+                int right_color = (other_node->right == NULL) ? 0 : other_node->right->color;
+
+                if (left_color == 0 && right_color == 0) {
                     other_node->color = 1;
                     node = node->parent;
                 } else {
-                    if (other_node->right->color == 0) {
+                    if (right_color == 0) {
                         if (other_node->left != NULL) {
                             other_node->left->color = 0;
                         }
@@ -349,13 +350,16 @@ struct Tree {
                     other_node = node->parent->left;
                 }
 
-                if (other_node->right->color == 0 
-                    && other_node->right->color == 0) {
-                    
+                if (other_node == NULL) { break; }
+
+                int left_color2 = (other_node->left == NULL) ? 0 : other_node->left->color;
+                int right_color2 = (other_node->right == NULL) ? 0 : other_node->right->color;
+
+                if (right_color2 == 0 && left_color2 == 0) {
                     other_node->color = 1;
                     node = node->parent;
                 } else {
-                    if (other_node->left->color == 0) {
+                    if (left_color2 == 0) {
                         if (other_node->right != NULL) {
                             other_node->right->color = 0;
                         }
@@ -458,6 +462,8 @@ struct Tree {
 
     treeNode<T1, T2>* getPredecessor(treeNode<T1, T2> *curr) 
     { 
+        if (curr == NULL) { return NULL; }
+
         if (curr->left != NULL) {
             return getMaximumKey(curr->left);
         }
@@ -472,6 +478,9 @@ struct Tree {
     
     treeNode<T1, T2>* getSuccessor(treeNode<T1, T2> *curr) 
     {
+        
+        if (curr == NULL) { return NULL; }
+
         if (curr->right != NULL) {
             return getMinimumKey(curr->right);
         }
