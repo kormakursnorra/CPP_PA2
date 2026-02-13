@@ -6,7 +6,35 @@
 
 ### 2. Linked List — `src/DLL/`
 
-### 3. Queue/Stack/Double Ended Queue — `src//`
+### 3. Double Ended Queue (Deque) — `src/Deque/`
+
+A double-ended queue implemented using the doubly linked list (DLL) from `src/DLL/`. The deque is a thin wrapper around the DLL, delegating all operations to it.
+
+**Implementation details:**
+- Backed by a templated doubly linked list with a sentinel node.
+- All push/pop operations work by inserting or erasing nodes at the head or tail of the DLL, which are O(1) thanks to the sentinel.
+- Copy construction and assignment delegate to the DLL's copy constructor and assignment operator, which perform deep copies.
+
+**Operations and time complexities:**
+| Operation | Method | Time Complexity | Notes |
+|-----------|--------|-----------------|-------|
+| Constructor | `Deque()` | O(1) | Creates an empty DLL with sentinel |
+| Copy constructor | `Deque(const Deque&)` | O(n) | Deep copies via DLL copy constructor |
+| Assignment | `operator=` | O(n) | Frees old data, deep copies via DLL |
+| Destructor | `~Deque()` | O(n) | DLL destructor frees all nodes |
+| Push front | `push_front(T)` | O(1) | Inserts node after sentinel |
+| Push back | `push_back(T)` | O(1) | Inserts node before sentinel |
+| Pop front | `pop_front()` | O(1) | Erases first node |
+| Pop back | `pop_back()` | O(1) | Erases last node |
+| Front | `front()` | O(1) | Returns data of first node |
+| Back | `back()` | O(1) | Returns data of last node |
+| Size | `size()` | O(1) | Returns stored size counter |
+
+**Exceptional cases:**
+- `pop_front()` / `pop_back()` on an empty deque: no-op (DLL `eraseNode` returns early if size is 0).
+- `front()` / `back()` on an empty deque returns the sentinel's uninitialized data (undefined behavior — callers should check size first).
+
+---
 
 ### 4. Heap (Min-Heap) — `src/Heap/`
 
@@ -80,6 +108,7 @@ make all
 
 ### Build individual targets
 ```bash
+make run-deque      # Build and run the Deque test program
 make run-heap       # Build and run the Heap test program
 make run-hashmap    # Build and run the HashMap test program
 ```
@@ -91,7 +120,9 @@ make run-hashmap    # Build and run the HashMap test program
 
 # Linked list tests:
 
-# Queue/Stack/Double ended queue tests:
+# Deque tests:
+./bin/deque_test < src/Deque/sample1.txt
+./bin/deque_test < src/Deque/sample2.txt
 
 # Heap tests:
 ./bin/heap_test < src/Heap/sample1.txt
@@ -107,6 +138,10 @@ make run-hashmap    # Build and run the HashMap test program
 
 To verify correctness, compare output against expected output files:
 ```bash
+# Deque
+./bin/deque_test < src/Deque/sample1.txt | diff - src/Deque/expected1.txt
+./bin/deque_test < src/Deque/sample2.txt | diff - src/Deque/expected2.txt
+
 # Heap
 ./bin/heap_test < src/Heap/sample1.txt | diff - src/Heap/expected1.txt
 ./bin/heap_test < src/Heap/sample2.txt | diff - src/Heap/expected2.txt
