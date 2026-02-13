@@ -17,16 +17,21 @@ HEAP_TEST_BIN := $(BIN_DIR)/$(HEAP_TEST_TARGET)
 
 ALL_TARGETS := $(DLL_TEST_BIN) $(HEAP_TEST_BIN) $(BST_TEST_TARGET)
 
+BST_TEST_SOURCES := src/BST/bst_test.cpp
 DLL_TEST_SOURCES := src/DLL/dll_test.cpp
 HEAP_TEST_SOURCES := src/Heap/heap.cpp src/Heap/heap_test.cpp
-BST_TEST_SOURCES := src/BST/bst_test.cpp
 
-BST_TEST_OBJECTS := $(BST_TEST_SOURCES:$(SRC_DIR/%.cpp=$(OBJ_DIR)/%.o))
+BST_TEST_OBJECTS := $(BST_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 DLL_TEST_OBJECTS := $(DLL_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 HEAP_TEST_OBJECTS := $(HEAP_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 all: $(ALL_TARGETS)
 	@echo " All test executables built" 
+
+$(BST_TEST_BIN): $(BST_TEST_OBJECTS) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@chmod +x $@
+	@echo "Build BST complete: $@"
 
 $(DLL_TEST_BIN): $(DLL_TEST_OBJECTS) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
@@ -37,11 +42,6 @@ $(HEAP_TEST_BIN): $(HEAP_TEST_OBJECTS) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 	@chmod +x $@
 	@echo "Build Heap complete: $@"
-
-$(BST_TEST_BIN): $(BST_TEST_OBJECTS) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
-	@chmod +x $@
-	@echo "Build BST complete: $@"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
@@ -71,7 +71,7 @@ clean:
 
 rebuild: clean all
 
-heap_test: $(BST_TEST_BIN)
+bst_test: $(BST_TEST_BIN)
 dll_test: $(DLL_TEST_BIN)
 heap_test: $(HEAP_TEST_BIN)
 
