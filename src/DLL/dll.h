@@ -1,5 +1,6 @@
 #ifndef DLL_H
 #define DLL_H
+#include <cstddef>
 
 template <typename T>
 struct listNode {
@@ -97,12 +98,14 @@ struct DLL {
 
     listNode<T>* eraseNode(listNode<T> *curr)
     {
-        if (size == 0) { return curr; }
+        if (curr == sentinel) { return curr; }
         listNode<T> *listnode = curr->next;
         listnode->prev = curr->prev;
         curr->prev->next = listnode;
         size--;
         
+        curr->prev = NULL;
+        curr->next = NULL;
         delete curr;
         return listnode;
     }

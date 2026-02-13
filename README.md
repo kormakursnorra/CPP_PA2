@@ -6,6 +6,38 @@
 
 ### 2. Linked List — `src/DLL/`
 
+A templated doubly linked list with sentinel node implementation. The list maintains bidirectional links between nodes, allowing efficient insertion and deletion at any position.
+
+**Implementation details:**
+- Uses a circular doubly linked list structure with a sentinel node
+- Sentinel node acts as both the head and tail marker:
+- * `sentinel->next` points to the first real node
+- * `sentinel->prev` points to the last real node
+- * When empty: `sentinel->next == sentinel->prev == sentinel`
+- Each node contains:
+- * `data`: the stored value (templated type T)
+- * `prev`: pointer to previous node
+- * `next`: pointer to next node
+- Circular structure simplifies edge cases (no NULL pointers to check)
+- Supports insertion before any node, including the sentinel (which inserts at end)
+
+**Operations and time complexities:**
+| Operation | Method | Time Complexity | Notes |
+|-----------|--------|-----------------|-------|
+| Constructor | `DLL()` | O(1) | Creates empty list with sentinel node |
+| Copy constructor | `DLL(const DLL&)` | O(n) | Deep copies all nodes in order |
+| Assignment | `operator=` | O(n) | Uses copy-and-swap idiom for exception safety | 
+| Destructor | `~DLL()` | O(n) | Deletes all nodes including sentinel |
+| First | `getFirst()` | O(1) | Returns pointer to first node `(sentinel->next)` | 
+| Back | `getLast()` | O(1) | Returns pointer to sentinel (insertion point for append) |
+| Insert | `insertNode(node*, data)` | O(1) | Inserts new node before given node |
+| Erase | `eraseNode(node*)` | O(1) | Removes given node, returns next node | 
+| Predecessor | `getPredecessor(node*)` | O(1) | Returns previous node in list
+| Successor | `getSuccessor(node*)` | O(1) | Returns next node in list | 
+| Size | `getSize()` | O(1) | Returns number of nodes (excluding sentinel) |
+
+---
+
 ### 3. Queue/Stack/Double Ended Queue — `src//`
 
 ### 4. Heap (Min-Heap) — `src/Heap/`
@@ -112,6 +144,7 @@ Access key: `node->key` (read-only in practice)
 `getPredecessor(NULL)` returns NULL (safe to call)
 `getRank(NULL)` returns -1
 Operations on empty tree: `getMinimumKey()` and `getMaximumKey()` return NULL
+
 ---
 
 ## Compiling and Running
