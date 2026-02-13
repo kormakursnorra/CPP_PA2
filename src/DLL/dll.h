@@ -151,17 +151,6 @@ struct DLL {
     listNode<T>* getSuccessor(listNode<T> *curr) { return curr->next; }
 
     int getSize() { return size; }
-
-    void printList() 
-    {   
-        listNode<T> *curr = sentinel;
-        printf("%s", " S ");
-        for (int i = 0; i < size; i++) {
-            printf("%s %d %s", " <=> ", curr->data, " <=> ");
-            curr = curr->next;
-        }
-        printf("%s", " S \n");
-    }
 };
 
 #endif
