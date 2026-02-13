@@ -21,6 +21,7 @@ DEQUE_TEST_BIN := $(BIN_DIR)/$(DEQUE_TEST_TARGET)
 
 ALL_TARGETS := $(DLL_TEST_BIN) $(HEAP_TEST_BIN) $(HASHMAP_TEST_BIN) $(BST_TEST_BIN) $(DEQUE_TEST_BIN)
 
+BST_TEST_SOURCES := src/BST/bst_test.cpp
 DLL_TEST_SOURCES := src/DLL/dll_test.cpp
 HEAP_TEST_SOURCES := src/Heap/heap.cpp src/Heap/heap_test.cpp
 HASHMAP_TEST_SOURCES := src/HashMap/hashmap.cpp src/HashMap/hashmap_test.cpp
@@ -35,6 +36,11 @@ DEQUE_TEST_OBJECTS := $(DEQUE_TEST_SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 all: $(ALL_TARGETS)
 	@echo " All test executables built" 
+
+$(BST_TEST_BIN): $(BST_TEST_OBJECTS) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@chmod +x $@
+	@echo "Build BST complete: $@"
 
 $(DLL_TEST_BIN): $(DLL_TEST_OBJECTS) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)

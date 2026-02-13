@@ -3,16 +3,17 @@
 #include <cstdio>
 
 
-static DLL<int> lists[1001];
+#define SIZE 100
 
-static listNode<int> *cursors[1001];
+static DLL<int> lists[SIZE];
+
+static listNode<int> *cursors[SIZE];
 
 int main() {
-
     int num_lines;
     scanf("%d", &num_lines);
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < SIZE; i++) {
         cursors[i] = lists[i].getLast();
     }
 
@@ -31,7 +32,7 @@ int main() {
             cursors[instance] = lists[instance].getFirst();
         }
         else if (op == 'b') {
-            cursors[instance] = lists[instance].getLast();
+           cursors[instance] = lists[instance].getLast();
         }
         else if (op == 'i') {
             int value;
@@ -48,7 +49,7 @@ int main() {
             cursors[instance] = lists[instance].getPredecessor(cursors[instance]);
         }
         else if (op == 'g') {
-            printf("%d, %c", cursors[instance]->data, '\n');
+            printf("%d\n", cursors[instance]->data);
         }
         else if (op == 's') {
             int value;
@@ -56,7 +57,7 @@ int main() {
             cursors[instance]->data = value;
         }
         else if (op == 'z') {
-            printf("%d %c", lists[instance].getSize(), '\n');
+            printf("%d\n", lists[instance].getSize());
         }
         else {
             assert(false);
