@@ -1,51 +1,11 @@
 #ifndef DLL_H
 #define DLL_H
-#include <algorithm>
-#include <cstddef>
 
 template <typename T>
 struct listNode {
     listNode<T> *prev;
     listNode<T> *next;
     T data;
-
-    listNode(T data) // List Node Constructor 
-    {
-        data = data;
-        prev = NULL;
-        next = NULL;
-    }
-
-    listNode(const listNode<T> &other) // List Node Copy 
-    {
-        data = other.data;
-        
-        if (other.prev != NULL) {
-            prev = new listNode<T>(*other.prev);
-        } else {
-            prev = next;
-        }
-
-        if (other.next != NULL) {
-            next = new listNode<T>(*other.next);
-        } else {
-            next = prev;
-        }
-    }
-
-    listNode<T> &operator=(listNode<T> other) 
-    {
-        std::swap(data, other.data);
-        std::swap(prev, other.prev);
-        std::swap(next, other.next);
-        return *this
-    }
-
-    ~listNode() 
-    {
-        delete prev;
-        delete next;
-    }
 };
 
 template <typename T> 
@@ -73,7 +33,8 @@ struct DLL {
         listNode<T> *other_node = other.sentinel->next;
 
         while (other_node != other.sentinel) {
-            listNode<T> *new_node = new listNode<T>(other_node->data);
+            listNode<T> *new_node = new listNode<T>();
+            new_node->data = other_node->data;
             
             new_node->prev = curr;
             new_node->next = curr->next;
@@ -87,15 +48,32 @@ struct DLL {
         curr = sentinel;
     }
 
-    DLL<T> &operator=(const DLL<T> other)  // Assign
+    DLL<T> &operator=(const DLL<T> &other)  // Assign
     {
-        std::swap(sentinel, other.sentinel);
-        std::swap(size, other.size);
+        if (this != &other) {
+            DLL<T> temp(other);
+            
+            listNode<T> *temp_sentinel = sentinel;
+            int temp_size = size;
+            
+            sentinel = temp.sentinel;
+            size = temp.size;
+            
+            temp.sentinel = temp_sentinel;
+            temp.size = temp_size;
+        }
+
         return *this;
     }
 
     ~DLL()  // Destructor
     {
+        listNode<T> *listnode = sentinel->next;
+        while (listnode != sentinel) {
+            listnode = listnode->next;
+            delete listnode->prev;
+        }
+    
         delete sentinel;
     }
     
@@ -125,8 +103,6 @@ struct DLL {
         curr->prev->next = listnode;
         size--;
         
-        curr->prev = NULL;
-        curr->next = NULL;
         delete curr;
         return listnode;
     }
@@ -136,6 +112,7 @@ struct DLL {
     listNode<T>* getSuccessor(listNode<T> *curr) { return curr->next; }
 
     int getSize() { return size; }
+
 };
 
 #endif
