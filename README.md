@@ -219,17 +219,24 @@ make all
 
 ### Build individual targets
 ```bash
+make run-array      # Build and run the Array test program
+make run-dll        # Build and run the DLL test program
 make run-deque      # Build and run the Deque test program
 make run-heap       # Build and run the Heap test program
 make run-hashmap    # Build and run the HashMap test program
+make run-bst        # Build and run the BST test program
 ```
 
 ### Run tests with sample input
 
 ```bash
 # Dynamically sized array tests:
+./bin/array_test < src/Array/sample1.txt
+./bin/array_test < src/Array/sample2.txt
 
 # Linked list tests:
+./bin/dll_test < src/DLL/sample1.txt
+./bin/dll_test < src/DLL/sample2.txt
 
 # Deque tests:
 ./bin/deque_test < src/Deque/sample1.txt
@@ -245,10 +252,20 @@ make run-hashmap    # Build and run the HashMap test program
 ./bin/hashmap_test < src/HashMap/sample2.txt
 
 # BST tests:
+./bin/bst_test < src/BST/sample1.txt
+./bin/bst_test < src/BST/sample2.txt
 ```
 
 To verify correctness, compare output against expected output files:
 ```bash
+# Array
+./bin/array_test < src/Array/sample1.txt | diff - src/Array/expected1.txt
+./bin/array_test < src/Array/sample2.txt | diff - src/Array/expected2.txt
+
+# DLL
+./bin/dll_test < src/DLL/sample1.txt | diff - src/DLL/expected1.txt
+./bin/dll_test < src/DLL/sample2.txt | diff - src/DLL/expected2.txt
+
 # Deque
 ./bin/deque_test < src/Deque/sample1.txt | diff - src/Deque/expected1.txt
 ./bin/deque_test < src/Deque/sample2.txt | diff - src/Deque/expected2.txt
@@ -261,6 +278,10 @@ To verify correctness, compare output against expected output files:
 # HashMap
 ./bin/hashmap_test < src/HashMap/sample1.txt | diff - src/HashMap/expected1.txt
 ./bin/hashmap_test < src/HashMap/sample2.txt | diff - src/HashMap/expected2.txt
+
+# BST
+./bin/bst_test < src/BST/sample1.txt | diff - src/BST/expected1.txt
+./bin/bst_test < src/BST/sample2.txt | diff - src/BST/expected2.txt
 ```
 
 If `diff` produces no output, the tests passed.
