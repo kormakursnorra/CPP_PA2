@@ -2,7 +2,38 @@
 
 ## Implemented Data Structures
 
-### 1. Dynamically Sized Array — `src//`
+### 1. Dynamically Sized Array — `src/Array/`
+
+A templated dynamically sized array that automatically manages its capacity as elements are added or removed. 
+
+**Implementation details:**
+- Uses a regular array allocated with `new[]` that we manage manually
+- When the array gets full, we double the capacity (2x growth factor)
+- Starts with capacity 10
+- It's templated so it works with any type T (we use `int` for the test program)
+- Copy constructor and assignment make actual deep copies, not just copying pointers
+- No shared memory between different array instances
+
+**Operations and time complexities:**
+| Operation | Method | Time Complexity | Notes |
+|-----------|--------|-----------------|-------|
+| Constructor | `dynamicArray()` | O(1) | Makes an empty array with capacity 10 |
+| Copy constructor | `dynamicArray(const dynamicArray&)` | O(n) | Deep copies all elements |
+| Assignment | `operator=` | O(n) | Deletes old array, copies the new one |
+| Destructor | `~dynamicArray()` | O(1) | Frees the array memory |
+| Push back | `push(T)` | O(n) | Appends element to end |
+| Pop back | `pop()` | O(1) | Removes last element |
+| Insert | `insert(int, T)` | O(n) | Inserts element at index, shifts elements right |
+| Erase | `erase(int)` | O(n) | Removes element at index, shifts elements left |
+| Element get | `element_get(int)` | O(1) | Returns value at index |
+| Element set | `element_set(int, T)` | O(1) | Sets value at index |
+| Resize | `resize(int)` | O(n) | Changes size, initializes new elements to 0 |
+| Reserve | `reserve(int)` | O(n) | Ensures capacity, does nothing if already sufficient |
+
+**Exceptional cases:**
+- `pop()` on an empty array: decrements size to -1 (undefined behavior — callers should check size first).
+- `element_get()` / `element_set()` with out-of-bounds index: no bounds checking, undefined behavior.
+- `resize()` to a smaller size: elements beyond new size are not deleted, but size is updated (capacity unchanged).
 
 ### 2. Linked List — `src/DLL/`
 
